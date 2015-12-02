@@ -3,7 +3,7 @@
 #include "Timer.hpp"
 #include "LoopTime.hpp"
 
-#define RoundTime 6e3
+#define RoundTime 60e3
 #define SlavePin 7
 
 SPISettings Timer::Max7221 = SPISettings( 10000000, MSBFIRST, SPI_MODE0 );
