@@ -1,9 +1,12 @@
-#include <SPI.h>
+#include <Arduino.h>
 
 #include "Timer.hpp"
+#include "LoopTime.hpp"
 
-#define RoundTime 60e3
+#define RoundTime 6e3
 #define SlavePin 7
+
+SPISettings Timer::Max7221 = SPISettings( 10000000, MSBFIRST, SPI_MODE0 );
 
 Timer::Timer( Buzzer *buzzer ) : startTime(0) {
 	this->buzzer = buzzer;
@@ -41,23 +44,26 @@ bool Timer::update( ) {
 	// timeRemaining is negative.
 	long timeRemaining = (RoundTime + startTime - LoopTime::time);
 	if ( timeRemaining < 0 ) {
-		buzzer->gameOver( );
+		// buzzer->play( Buzzer_GameOver );
 		// draw or blink 00.00
+		Serial.println("TIME UP");
 		return false;
 	}
 	displayTime( timeRemaining );
+	return true;
 }
 
 void Timer::displayTime( long timeRemaining ) {
-	// munge numbers
+	// munge numbers for thing here.
+	Serial.println( String( timeRemaining/1000.0f ) );
 }
 
-void Timer::write( uint8_t address, uint8_t value ) {
+void Timer::write( uint8_t registerAddress, uint8_t value ) {
 	// Might be able to begin transaction much
 	SPI.beginTransaction( Timer::Max7221 );
-	digitalWrite( SlaveSelect, LOW );
-	SPI.transfer( address );
+	digitalWrite( SlavePin, LOW );
+	SPI.transfer( registerAddress );
 	SPI.transfer( value );
-	digitalWrite( SlaveSelect, HIGH );
+	digitalWrite( SlavePin, HIGH );
 	SPI.endTransaction( );
 }
