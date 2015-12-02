@@ -54,8 +54,20 @@ bool Timer::update( ) {
 }
 
 void Timer::displayTime( long timeRemaining ) {
-	// munge numbers for thing here.
-	Serial.println( String( timeRemaining/1000.0f ) );
+	// want to display seconds and centiseconds. XX.XX least significant
+	// bit is first element. First digit on display is most significant
+	// bit. Display is wired backwards to make rightmost digit be the
+	// least significant.
+	uint8_t components[4] = { 0 };
+	for ( int i = 0; i < 4; i++ ) {
+		timeRemaining /= 10;
+		components[i] = timeRemaining % 10;
+	}
+	// most significant bit sets decimal point for B-Code.
+	components[2] |= 0x80;
+	// Serial.println( String(components[3]) + ", " + String(components[2]) + ", " + String(components[1]) + ", " + String(components[0]) );
+	for ( int i = 0; i < 4; i++ )
+		write( i + 1, components[i] );
 }
 
 void Timer::write( uint8_t registerAddress, uint8_t value ) {
