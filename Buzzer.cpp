@@ -1,5 +1,6 @@
 #include "Buzzer.hpp"
 #include "notes.h"
+#include "LoopTime.hpp"
 
 // these are all very similar, except they will play different note patterns.
 void Buzzer::play( BuzzerJingle jingle ) {
