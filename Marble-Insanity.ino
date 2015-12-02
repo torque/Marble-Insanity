@@ -1,5 +1,6 @@
 #include "Nunchuck.hpp"
 #include "AttitudeControl.hpp"
+#include "CoinSensor.hpp"
 #include "LoopTime.hpp"
 #include "Buzzer.hpp"
 #include "Timer.hpp"
@@ -13,11 +14,13 @@ Nunchuck *nunchuck;
 Buzzer *buzzer;
 Timer *timer;
 AttitudeControl *servos;
+CoinSensor *coinSensor;
 
 void setup( void ) {
 	Serial.begin( 115200 );
 	nunchuck = new Nunchuck( );
 	// buzzer = new Buzzer( );
+	coinSensor = new CoinSensor( buzzer );
 	timer = new Timer( buzzer );
 	servos = new AttitudeControl( nunchuck );
 	servos->reset( );
@@ -26,7 +29,7 @@ void setup( void ) {
 
 void loop( void ) {
 	// coin check routine
-
+	coinSensor->waitForCoin( );
 	// gameplay routine
 	LoopTime::update( );
 	timer->startCountdown( );
