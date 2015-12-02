@@ -2,6 +2,6 @@
 
 class LoopTime {
 	public:
-		static unsigned long time = 0;
+		static unsigned long time;
 		static void update( void );
-}
+};

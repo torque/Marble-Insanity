@@ -1,5 +1,9 @@
+#include <Arduino.h>
+
 #include "LoopTime.hpp"
 
-static void LoopTime::update( void ) {
+unsigned long LoopTime::time = 0;
+
+void LoopTime::update( void ) {
 	LoopTime::time = millis( );
 }
