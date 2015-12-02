@@ -9,8 +9,7 @@
 Nunchuck *nunchuck;
 // Buzzer *buzzer;
 // Timer *timer;
-AttitudeControl *pitch;
-AttitudeControl *roll;
+AttitudeControl *servos;
 
 void setup( void ) {
 	Serial.begin( 115200 );
@@ -18,8 +17,8 @@ void setup( void ) {
 	nunchuck->calibrate( );
 	// buzzer = new Buzzer( );
 	// timer = new Timer( buzzer );
-	pitch = new AttitudeControl( Pitch, nunchuck );
-	roll = new AttitudeControl( Roll, nunchuck );
+	timer = new Timer( buzzer );
+	servos = new AttitudeControl( nunchuck );
 }
 
 void loop( void ) {
@@ -31,12 +30,12 @@ void loop( void ) {
 	// while ( timer->update( ) ) {
 		// read joystick inputs, write servos, check victory condition
 		nunchuck->updateJoystick( );
-		pitch->update( );
-		roll->update( );
-		LoopTime::update( );
+		servos->update( );
 		// Serial.println( "pitch: " + String( nunchuck->pitchDegrees( ) ) + ", roll: " + String( nunchuck->rollDegrees( ) ) );
 		sleep( 1 );
 	// }
+		LoopTime::update( );
+	servos->reset( );
 	// game over routine
 }
 

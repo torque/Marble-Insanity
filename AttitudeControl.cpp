@@ -1,33 +1,28 @@
+#include <Arduino.h>
 #include "AttitudeControl.hpp"
 
-#define LevelPitch (69-90)
-#define LevelRoll (80-90)
+#define LevelPitch 69
+#define LevelRoll 80
 
-AttitudeControl::AttitudeControl( AttitudeAngle angle, Nunchuck *nunchuck ) : type(angle) {
-	servo = new Servo( );
+#define PitchPin 9
+#define RollPin 10
+
+AttitudeControl::AttitudeControl( Nunchuck *nunchuck ) {
+	pitch = new Servo( );
+	roll = new Servo( );
 	this->nunchuck = nunchuck;
-	switch ( angle ) {
-		case Pitch: {
-			// frequency bounds determined empirically.
-			servo->attach( angle, 620, 2200 );
-			break;
-		}
-		case Roll: {
-			servo->attach( angle, 700, 2350 );
-			break;
-		}
-	}
+	// frequency bounds determined empirically.
+	pitch->attach( PitchPin, 620, 2200 );
+	roll->attach( RollPin, 700, 2350 );
 }
 
 void AttitudeControl::update( void ) {
-	switch ( type ) {
-		case Pitch: {
-			servo->write( LevelPitch + nunchuck->pitchDegrees( ) );
-			break;
-		}
-		case Roll: {
-			servo->write( LevelRoll + nunchuck->rollDegrees( ) );
-			break;
-		}
-	}
+	pitch->write( LevelPitch + nunchuck->pitchDegrees( ) );
+	roll->write( LevelRoll + nunchuck->rollDegrees( ) );
+}
+
+void AttitudeControl::reset( void ) {
+	// Serial.println( "Resetting servos" );
+	pitch->write( LevelPitch );
+	roll->write( LevelRoll );
 }

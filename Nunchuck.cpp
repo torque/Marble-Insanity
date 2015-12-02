@@ -96,15 +96,15 @@ void Nunchuck::updateJoystick( void ) {
 
 int Nunchuck::pitchDegrees( void ) {
 	if ( joyY > joyYZero )
-		return 90 - (joyY - joyYZero)*joyYDegreeUp;
+		return -(joyY - joyYZero)*joyYDegreeUp;
 	else
-		return (joyY - joyYZero)*joyYDegreeDown + 90;
+		return (joyY - joyYZero)*joyYDegreeDown;
 }
 
 int Nunchuck::rollDegrees( void ) {
 	// roll is reversed
 	if ( joyX > joyXZero )
-		return (joyX - joyXZero)*joyXDegreeUp + 90;
+		return (joyX - joyXZero)*joyXDegreeUp;
 	else
-		return 90 - (joyX - joyXZero)*joyXDegreeDown;
+		return -(joyX - joyXZero)*joyXDegreeDown;
 }
