@@ -51,6 +51,7 @@ void loop( void ) {
 		LoopTime::update( );
 	}
 
+	timer->reset( );
 	servos->reset( );
 	// game over routine
 }
@@ -60,10 +61,3 @@ void victory( void ) {
 	timer->displayCharacters( goal );
 	sleep( 5000 );
 }
-
-// void loop( void ) {
-// 	nunchuck->updateJoystick( );
-// 	// Serial.println( "x: " + String( nunchuck->joyX ) + ", y: " + String( nunchuck->joyY ) );
-// 	// Serial.println( "pitch: " + String( nunchuck->pitchDegrees( ) ) + ", roll: " + String( nunchuck->rollDegrees( ) ) );
-// 	sleep(500);
-// }
