@@ -13,5 +13,8 @@ class AttitudeControl {
 	public:
 		AttitudeControl( Nunchuck *nunchuck );
 		void update( void );
+		// level the platform
+		void zero( void );
+		// roll the ball back to the start
 		void reset( void );
 };

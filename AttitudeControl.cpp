@@ -21,8 +21,17 @@ void AttitudeControl::update( void ) {
 	roll->write( LevelRoll + nunchuck->rollDegrees( ) );
 }
 
-void AttitudeControl::reset( void ) {
+void AttitudeControl::zero( void ) {
 	// Serial.println( "Resetting servos" );
 	pitch->write( LevelPitch );
 	roll->write( LevelRoll );
+}
+
+void AttitudeControl::reset( void ) {
+	pitch->write( LevelPitch + 60 );
+	roll->write( LevelRoll - 60 );
+	// somewhat arbitrary. there's no sensor to detect if the ball is at
+	// the start.
+	delay( 1000 );
+	zero( );
 }
