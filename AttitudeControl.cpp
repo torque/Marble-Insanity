@@ -27,11 +27,19 @@ void AttitudeControl::zero( void ) {
 	roll->write( LevelRoll );
 }
 
+#define ResetDelay 1000
 void AttitudeControl::reset( void ) {
-	pitch->write( LevelPitch + 60 );
-	roll->write( LevelRoll - 60 );
-	// somewhat arbitrary. there's no sensor to detect if the ball is at
-	// the start.
-	delay( 1000 );
+	// front right
+	pitch->write( LevelPitch + 55 );
+	roll->write( LevelRoll + 55 );
+	delay( ResetDelay );
+	// front left
+	pitch->write( LevelPitch + 55 );
+	roll->write( LevelRoll - 55 );
+	delay( ResetDelay );
+	// back left
+	pitch->write( LevelPitch - 55 );
+	roll->write( LevelRoll - 55 );
+	delay( ResetDelay );
 	zero( );
 }
