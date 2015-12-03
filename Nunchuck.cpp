@@ -2,10 +2,10 @@
 #include <Wire.h>
 
 #include "Nunchuck.hpp"
+#include "LoopTime.hpp"
+#include "Timer.hpp"
 
 #define NunchuckAddress 0x52
-#define zeroX 123
-#define zeroY
 
 void Nunchuck::write( uint8_t registerAddress, uint8_t value ) {
 	Wire.beginTransmission( NunchuckAddress );
