@@ -37,9 +37,12 @@ void Nunchuck::calibrate( void ) {
 	int loops = 0;
 	// bitfield 0b0000LBRT
 	//                8421
+	char calibrateMessage[4] = { 'C', 'A', 'L', '0' };
+	Timer::timer->displayCharacters( calibrateMessage );
 	uint8_t loopCheck = 0;
 	while ( loops < 3 ) {
 		delay( 1 );
+		LoopTime::update( );
 		updateJoystick( );
 		joyXMax = max( joyXMax, joyX );
 		joyXMin = min( joyXMin, joyX );
@@ -59,7 +62,8 @@ void Nunchuck::calibrate( void ) {
 			loopCheck |= 0x8;
 
 		if ( loopCheck == 0xF ) {
-			loops++;
+			calibrateMessage[3] = ++loops;
+			Timer::timer->displayCharacters( calibrateMessage );
 			loopCheck = 0;
 		}
 	}
