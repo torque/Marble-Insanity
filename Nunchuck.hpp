@@ -10,6 +10,7 @@ class Nunchuck {
 		uint8_t joyX, joyY;
 
 		Nunchuck( void );
+		void waitForInput( void );
 		void calibrate( void );
 		void updateJoystick( void );
 		int pitchDegrees( void );

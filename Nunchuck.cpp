@@ -83,6 +83,21 @@ void Nunchuck::calibrate( void ) {
 #undef ReasonablyCentered
 #undef ReasonablyMax
 
+void Nunchuck::waitForInput( void ) {
+	#define Deadzone 10
+	char go[4] = {'G', 'O', ' ', ' ' };
+	Timer::timer->displayCharacters( go );
+	updateJoystick( );
+	for ( ;; ) {
+		delay( 5 );
+		updateJoystick( );
+		// Serial.println( "dx: " + String(abs( joyX - joyXZero )) + " dy: " + String(abs( joyY - joyYZero )));
+		if ( (abs( joyX - joyXZero ) > Deadzone) || (abs( joyY - joyYZero )) > Deadzone )
+			break;
+	}
+	#undef Deadzone
+}
+
 void Nunchuck::updateJoystick( void ) {
 	uint8_t data[2] = { 127, 127 };
 	Wire.requestFrom( NunchuckAddress, 2 );

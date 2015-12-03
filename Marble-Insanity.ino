@@ -34,6 +34,7 @@ void setup( void ) {
 void loop( void ) {
 	// coin check routine
 	coinSensor->waitForCoin( );
+	nunchuck->waitForInput( );
 	// gameplay routine
 	LoopTime::update( );
 	timer->startCountdown( );
