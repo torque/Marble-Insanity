@@ -5,7 +5,7 @@
 #include "LoopTime.hpp"
 #include "alphabet.h"
 
-#define RoundTime 60e3
+#define RoundTime 30e3
 #define SlavePin 7
 
 SPISettings Timer::Max7221 = SPISettings( 10000000, MSBFIRST, SPI_MODE0 );
@@ -84,6 +84,7 @@ void Timer::displayCharacters( char characters[4] ) {
 	setBDecode( false );
 	for ( int i = 0; i < 4; i++ ) {
 		// display is backwards, so the first digit is the rightmost one.
+		// Serial.println( "Writing to reg " + String(4 - i) + " char: " + String(characters[i]) + " -> " + String(charToDisplay(characters[i])));
 		write( 4 - i, charToDisplay( characters[i] ) );
 	}
 }
@@ -99,6 +100,7 @@ void Timer::setBDecode( bool on ) {
 
 void Timer::write( uint8_t registerAddress, uint8_t value ) {
 	// Might be able to begin transaction much
+	// Serial.println( "Writing to " + String(registerAddress) + ": " + String(value) );
 	SPI.beginTransaction( Timer::Max7221 );
 	digitalWrite( SlavePin, LOW );
 	SPI.transfer( registerAddress );
