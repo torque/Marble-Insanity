@@ -1,5 +1,6 @@
 #include <Arduino.h>
 
+#include "Buzzer.hpp"
 #include "Timer.hpp"
 #include "LoopTime.hpp"
 
@@ -7,10 +8,11 @@
 #define SlavePin 7
 
 SPISettings Timer::Max7221 = SPISettings( 10000000, MSBFIRST, SPI_MODE0 );
+Timer *Timer::timer = nullptr;
 
-Timer::Timer( Buzzer *buzzer ) : startTime(0) {
-	this->buzzer = buzzer;
+Timer::Timer( void ) : startTime(0) {
 	// initialize SPI
+	Timer::timer = this;
 	pinMode( SlavePin, OUTPUT );
 	digitalWrite( SlavePin, HIGH );
 	// Pin 10, the uno slave mode select, should already be set to output
