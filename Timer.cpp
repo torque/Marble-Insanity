@@ -10,7 +10,7 @@
 SPISettings Timer::Max7221 = SPISettings( 10000000, MSBFIRST, SPI_MODE0 );
 Timer *Timer::timer = nullptr;
 
-Timer::Timer( void ) : startTime(0) {
+Timer::Timer( void ) : startTime(0), bDecode(false) {
 	// initialize SPI
 	Timer::timer = this;
 	pinMode( SlavePin, OUTPUT );
@@ -24,8 +24,8 @@ Timer::Timer( void ) : startTime(0) {
 	write( 0x0B, 0x04 );
 	// Set intensity lower to use less power.
 	write( 0x0A, 0x04 );
-	// Code B decode on all four digits.
-	write( 0x09, 0x0F );
+}
+
 }
 
 void Timer::reset( void ) {
@@ -35,7 +35,8 @@ void Timer::reset( void ) {
 
 void Timer::startCountdown( ) {
 	startTime = LoopTime::time;
-	// draw 60.00
+	// turn B-Code decoding on.
+	setBDecode( true );
 }
 
 // shouldn't have to worry about overflow, because avr unsigned long is
@@ -67,9 +68,25 @@ void Timer::displayTime( long timeRemaining ) {
 	}
 	// most significant bit sets decimal point for B-Code.
 	components[2] |= 0x80;
-	// Serial.println( String(components[3]) + ", " + String(components[2]) + ", " + String(components[1]) + ", " + String(components[0]) );
 	for ( int i = 0; i < 4; i++ )
 		write( i + 1, components[i] );
+}
+
+void Timer::displayCharacters( char characters[4] ) {
+	setBDecode( false );
+	for ( int i = 0; i < 4; i++ ) {
+		// display is backwards, so the first digit is the rightmost one.
+		write( 4 - i, charToDisplay( characters[i] ) );
+	}
+}
+
+void Timer::setBDecode( bool on ) {
+	if ( on == bDecode ) return;
+	bDecode = on;
+	if ( on )
+		write( 0x09, 0x0F );
+	else
+		write( 0x09, 0x00 );
 }
 
 void Timer::write( uint8_t registerAddress, uint8_t value ) {
