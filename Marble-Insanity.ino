@@ -56,13 +56,9 @@ void loop( void ) {
 }
 
 void victory( void ) {
-	unsigned long startTime = LoopTime::time;
-	bool displayOn = true;
-	// run for 1 second
-	while ( LoopTime::time - startTime < 5000 ) {
-		LoopTime::update( );
-		sleep( 1000 );
-	}
+	char goal[4] = { 'G', 'O', 'A', 'L' };
+	timer->displayCharacters( goal );
+	sleep( 5000 );
 }
 
 // void loop( void ) {
