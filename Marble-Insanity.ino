@@ -4,6 +4,7 @@
 #include "LoopTime.hpp"
 #include "Buzzer.hpp"
 #include "Timer.hpp"
+#include "VictorySensor.hpp"
 
 #define sleep delay
 #define usleep delayMicroseconds
@@ -15,6 +16,7 @@ Buzzer *buzzer;
 Timer *timer;
 AttitudeControl *servos;
 CoinSensor *coinSensor;
+VictorySensor *victorySensor;
 
 void setup( void ) {
 	Serial.begin( 115200 );
@@ -22,6 +24,7 @@ void setup( void ) {
 	// buzzer = new Buzzer( );
 	coinSensor = new CoinSensor( buzzer );
 	timer = new Timer( buzzer );
+	victorySensor = new VictorySensor( );
 	servos = new AttitudeControl( nunchuck );
 	servos->reset( );
 	nunchuck->calibrate( );
@@ -37,6 +40,10 @@ void loop( void ) {
 		// read joystick inputs, write servos, check victory condition
 		nunchuck->updateJoystick( );
 		servos->update( );
+		if ( victorySensor->update( ) ) {
+			victory( );
+			break;
+		}
 		// Serial.println( "pitch: " + String( nunchuck->pitchDegrees( ) ) + ", roll: " + String( nunchuck->rollDegrees( ) ) );
 		sleep( 5 );
 		LoopTime::update( );
@@ -44,6 +51,16 @@ void loop( void ) {
 
 	servos->reset( );
 	// game over routine
+}
+
+void victory( void ) {
+	unsigned long startTime = LoopTime::time;
+	bool displayOn = true;
+	// run for 1 second
+	while ( LoopTime::time - startTime < 5000 ) {
+		LoopTime::update( );
+		sleep( 1000 );
+	}
 }
 
 // void loop( void ) {
