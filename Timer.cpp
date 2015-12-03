@@ -3,6 +3,7 @@
 #include "Buzzer.hpp"
 #include "Timer.hpp"
 #include "LoopTime.hpp"
+#include "alphabet.h"
 
 #define RoundTime 60e3
 #define SlavePin 7
@@ -10,7 +11,7 @@
 SPISettings Timer::Max7221 = SPISettings( 10000000, MSBFIRST, SPI_MODE0 );
 Timer *Timer::timer = nullptr;
 
-Timer::Timer( void ) : startTime(0), bDecode(false) {
+Timer::Timer( void ) : startTime(0), bDecode(true) {
 	// initialize SPI
 	Timer::timer = this;
 	pinMode( SlavePin, OUTPUT );
@@ -24,8 +25,15 @@ Timer::Timer( void ) : startTime(0), bDecode(false) {
 	write( 0x0B, 0x04 );
 	// Set intensity lower to use less power.
 	write( 0x0A, 0x04 );
+	// shut off b decoding, which appears to be on by default.
+	setBDecode( false );
 }
 
+void Timer::blank( void ) {
+	// blank the display forcefully
+	setBDecode( false );
+	for ( int i = 1; i < 5; i++ )
+		write( i, 0x00 );
 }
 
 void Timer::reset( void ) {

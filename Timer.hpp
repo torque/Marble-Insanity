@@ -15,6 +15,7 @@ class Timer {
 		static Timer *timer;
 
 		Timer( void );
+		void blank( void );
 		void reset( void );
 		void startCountdown( void );
 		// returns whether or not the round has ended.
