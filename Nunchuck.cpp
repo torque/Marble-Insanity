@@ -30,7 +30,6 @@ void Nunchuck::calibrate( void ) {
 	for ( int i = 0; i < 10; i++ ) {
 		updateJoystick( );
 		delay( 1 );
-		// Serial.println( "x: " + String( joyX ) + ", y: " + String( joyY ) );
 	}
 	joyXMin = joyXZero = joyXMax = joyX;
 	joyYMin = joyYZero = joyYMax = joyY;
@@ -96,7 +95,7 @@ void Nunchuck::updateJoystick( void ) {
 
 int Nunchuck::pitchDegrees( void ) {
 	if ( joyY > joyYZero )
-		return -(joyY - joyYZero)*joyYDegreeUp;
+		return (joyYZero - joyY)*joyYDegreeUp;
 	else
 		return (joyY - joyYZero)*joyYDegreeDown;
 }
@@ -106,5 +105,5 @@ int Nunchuck::rollDegrees( void ) {
 	if ( joyX > joyXZero )
 		return (joyX - joyXZero)*joyXDegreeUp;
 	else
-		return -(joyX - joyXZero)*joyXDegreeDown;
+		return (joyXZero - joyX)*joyXDegreeDown;
 }
