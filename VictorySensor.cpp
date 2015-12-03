@@ -3,7 +3,7 @@
 #include "VictorySensor.hpp"
 
 #define SensorPin A1
-#define SensorThreshold 100
+#define SensorThreshold 500
 
 VictorySensor::VictorySensor( void ) {
 	pinMode( SensorPin, INPUT );
