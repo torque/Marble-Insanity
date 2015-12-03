@@ -17,4 +17,5 @@ void CoinSensor::waitForCoin( void ) {
 		if ( coinReading < CoinThreshold )
 			break;
 	}
+	// Buzzer::buzzer->play( Buzzer_CoinDetected );
 }

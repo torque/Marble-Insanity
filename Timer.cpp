@@ -44,7 +44,7 @@ bool Timer::update( ) {
 	// timeRemaining is negative.
 	long timeRemaining = (RoundTime + startTime - LoopTime::time);
 	if ( timeRemaining < 0 ) {
-		// buzzer->play( Buzzer_GameOver );
+		// Buzzer::buzzer->play( Buzzer_GameOver );
 		// draw or blink 00.00
 		Serial.println("TIME UP");
 		return false;

@@ -10,7 +10,9 @@ class Buzzer {
 	private:
 		unsigned long startTime;
 	public:
+		static Buzzer *buzzer;
 		bool playing = false;
+		Buzzer( void );
 		void play( BuzzerJingle );
 		void update( void );
 };
