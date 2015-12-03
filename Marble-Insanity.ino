@@ -22,11 +22,12 @@ void setup( void ) {
 	Serial.begin( 115200 );
 	nunchuck = new Nunchuck( );
 	// buzzer = new Buzzer( );
-	coinSensor = new CoinSensor( buzzer );
-	timer = new Timer( buzzer );
+	coinSensor = new CoinSensor( );
 	victorySensor = new VictorySensor( );
+	timer = new Timer( );
+	timer->blank( );
 	servos = new AttitudeControl( nunchuck );
-	servos->reset( );
+	servos->zero( );
 	nunchuck->calibrate( );
 }
 
