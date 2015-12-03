@@ -1,8 +1,8 @@
 #include <Arduino.h>
 #include "AttitudeControl.hpp"
 
-#define LevelPitch 69
-#define LevelRoll 80
+#define LevelPitch 72
+#define LevelRoll 72
 
 #define PitchPin 9
 #define RollPin 10
