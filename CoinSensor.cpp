@@ -1,19 +1,20 @@
 #include <Arduino.h>
 
 #include "CoinSensor.hpp"
+#include "LoopTime.hpp"
+#include "Timer.hpp"
 
 #define CoinSensorPin A0
 #define CoinThreshold 75
 
-CoinSensor::CoinSensor( Buzzer *buzzer ) {
-	this->buzzer = buzzer;
-}
-
 void CoinSensor::waitForCoin( void ) {
+	char coin[4] = { 'C', 'O', 'I', 'N' };
+	Timer::timer->displayCharacters( coin );
 	for ( ;; ) {
+		LoopTime::update( );
 		int coinReading = analogRead( CoinSensorPin );
 		Serial.println( "value: " + String( coinReading ) );
-		if ( coinReading < 75 )
+		if ( coinReading < CoinThreshold )
 			break;
 	}
 }
