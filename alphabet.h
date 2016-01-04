@@ -1,48 +1,21 @@
 #pragma once
 
-/*
- AAAA
-F    B
-F    B
- GGGG
-E    C
-E    C
- DDDD  DP
-      ABCDEFG
-A: 0b01110111
-B: 0b01111111
-C: 0b01001110
-D: 0b01111110
-E: 0b01001111
-F: 0b01000111
-G: 0b01011110
-H: 0b00110111
-I: 0b00110000
-J: 0b00111000
-L: 0b00001110
-N: 0b01110110
-O: 0b01111110
-P: 0b01100111
-R: 0b01110111
-S: 0b01011011
-T: 0b01110000
-U: 0b00111110
-Y: 0b00111011
-Z: 0b01101101
-0: 0b01111110
-1: 0b00110000
-2: 0b01101101
-3: 0b01111001
-4: 0b00110011
-5: 0b01011011
-6: 0b01011111
-7: 0b01110000
-8: 0b01111111
-9: 0b01111011
-*/
-
 static inline uint8_t charToDisplay( unsigned char letter ) {
 	switch( letter ) {
+		// binary integer literals are a gnu extension and are not part of
+		// the C++ standard. Arduino IDE compiles with --std=gnu++11 by
+		// default though, so usage here is fine. Alternately, it would be
+		// trivial to convert these literals to hexadecimal.
+		/*
+		 AAAA
+		F    B
+		F    B
+		 GGGG
+		E    C
+		E    C
+		 DDDD  DP
+		                    ABCDEFG
+		*/
 		case 'A': return 0b01110111;
 		case 'B': return 0b01111111;
 		case 'C': return 0b01001110;
