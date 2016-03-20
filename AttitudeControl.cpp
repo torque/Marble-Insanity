@@ -22,7 +22,6 @@ void AttitudeControl::update( void ) {
 }
 
 void AttitudeControl::zero( void ) {
-	// Serial.println( "Resetting servos" );
 	pitch->write( LevelPitch );
 	roll->write( LevelRoll );
 }

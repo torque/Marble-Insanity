@@ -24,21 +24,20 @@ Nunchuck::Nunchuck( void ) {
 #define ReasonablyCentered 5
 #define ReasonablyMax 70
 void Nunchuck::calibrate( void ) {
-	// the first couple of values can be shoddy, so throw them out.
 	uint8_t joyXMin, joyXMax, joyYMin, joyYMax;
 
+	// the first couple of values can be shoddy, so throw them out.
 	for ( int i = 0; i < 10; i++ ) {
 		updateJoystick( );
 		delay( 1 );
 	}
 	joyXMin = joyXZero = joyXMax = joyX;
 	joyYMin = joyYZero = joyYMax = joyY;
-	Serial.println( "Calibration starting. xZero: " + String(joyXZero) + ", yZero: " + String(joyYZero) );
 	int loops = 0;
-	// bitfield 0b0000LBRT
-	//                8421
 	char calibrateMessage[4] = { 'C', 'A', 'L', '0' };
 	Timer::timer->displayCharacters( calibrateMessage );
+	// bitfield 0b0000LBRT
+	//                8421
 	uint8_t loopCheck = 0;
 	while ( loops < 3 ) {
 		delay( 1 );
@@ -67,9 +66,6 @@ void Nunchuck::calibrate( void ) {
 			loopCheck = 0;
 		}
 	}
-	Serial.println( "Calibration finished. xZero: " + String(joyXZero) + ", yZero: " + String(joyYZero) );
-	Serial.println( "                       xMin: " + String(joyXMin) + ",   yMin: " + String(joyYMin) );
-	Serial.println( "                       xMax: " + String(joyXMax) + ",  yMax: " + String(joyYMax) );
 
 #define MaxDegreesUp 60.0f
 #define MaxDegreesDown 60.0f
@@ -84,18 +80,17 @@ void Nunchuck::calibrate( void ) {
 #undef ReasonablyMax
 
 void Nunchuck::waitForInput( void ) {
-	#define Deadzone 10
+#define Deadzone 10
 	char go[4] = {'G', 'O', ' ', ' ' };
 	Timer::timer->displayCharacters( go );
 	updateJoystick( );
 	for ( ;; ) {
 		delay( 5 );
 		updateJoystick( );
-		// Serial.println( "dx: " + String(abs( joyX - joyXZero )) + " dy: " + String(abs( joyY - joyYZero )));
 		if ( (abs( joyX - joyXZero ) > Deadzone) || (abs( joyY - joyYZero )) > Deadzone )
 			break;
 	}
-	#undef Deadzone
+#undef Deadzone
 }
 
 void Nunchuck::updateJoystick( void ) {

@@ -8,8 +8,6 @@
 
 #define sleep delay
 #define usleep delayMicroseconds
-// #include "Buzzer.hpp"
-// #include "Timer.hpp"
 
 Nunchuck *nunchuck;
 Buzzer *buzzer;
@@ -19,7 +17,6 @@ CoinSensor *coinSensor;
 VictorySensor *victorySensor;
 
 void setup( void ) {
-	Serial.begin( 115200 );
 	nunchuck = new Nunchuck( );
 	// buzzer = new Buzzer( );
 	coinSensor = new CoinSensor( );
@@ -27,7 +24,9 @@ void setup( void ) {
 	timer = new Timer( );
 	timer->blank( );
 	servos = new AttitudeControl( nunchuck );
+	// Level table
 	servos->zero( );
+	// Calibrate nunchuck
 	nunchuck->calibrate( );
 }
 
@@ -35,6 +34,7 @@ void loop( void ) {
 	// coin check routine
 	coinSensor->waitForCoin( );
 	nunchuck->waitForInput( );
+
 	// gameplay routine
 	LoopTime::update( );
 	timer->startCountdown( );
@@ -46,14 +46,13 @@ void loop( void ) {
 			victory( );
 			break;
 		}
-		// Serial.println( "pitch: " + String( nunchuck->pitchDegrees( ) ) + ", roll: " + String( nunchuck->rollDegrees( ) ) );
 		sleep( 5 );
 		LoopTime::update( );
 	}
 
+	// game over routine
 	timer->reset( );
 	servos->reset( );
-	// game over routine
 }
 
 void victory( void ) {

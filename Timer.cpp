@@ -57,7 +57,6 @@ bool Timer::update( ) {
 	if ( timeRemaining < 0 ) {
 		// Buzzer::buzzer->play( Buzzer_GameOver );
 		// draw or blink 00.00
-		Serial.println("TIME UP");
 		return false;
 	}
 	displayTime( timeRemaining );
@@ -84,7 +83,6 @@ void Timer::displayCharacters( char characters[4] ) {
 	setBDecode( false );
 	for ( int i = 0; i < 4; i++ ) {
 		// display is backwards, so the first digit is the rightmost one.
-		// Serial.println( "Writing to reg " + String(4 - i) + " char: " + String(characters[i]) + " -> " + String(charToDisplay(characters[i])));
 		write( 4 - i, charToDisplay( characters[i] ) );
 	}
 }
@@ -99,8 +97,8 @@ void Timer::setBDecode( bool on ) {
 }
 
 void Timer::write( uint8_t registerAddress, uint8_t value ) {
-	// Might be able to begin transaction much
-	// Serial.println( "Writing to " + String(registerAddress) + ": " + String(value) );
+	// Might be able to begin the transaction in some outer loop level,
+	// but this works just fine and is much easier to handle.
 	SPI.beginTransaction( Timer::Max7221 );
 	digitalWrite( SlavePin, LOW );
 	SPI.transfer( registerAddress );
